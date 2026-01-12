@@ -1,0 +1,21 @@
+cat <<EOF > .gitignore
+# Virtual environments
+venv/
+.env/
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+
+# PyTorch checkpoints
+*.pt
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+/data
