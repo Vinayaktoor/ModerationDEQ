@@ -1,0 +1,64 @@
+schema: '2.0'
+stages:
+  datageneration:
+    cmd: python data/generate_dataset.py
+    deps:
+    - path: data
+      hash: md5
+      md5: 6354f3ac1f93335f795829d404af07d9.dir
+      size: 940451
+      nfiles: 2
+  preprocessing:
+    cmd: python engine/dataloader.py
+    deps:
+    - path: data/community_dynamics.csv
+      hash: md5
+      md5: 0ae2f9baa67188fb86bf090ccb229d1b
+      size: 938551
+    - path: engine/dataloader.py
+      hash: md5
+      md5: f84799204162fc2f9dc86b9d77dd0d8b
+      size: 893
+  train:
+    cmd: python train.py
+    deps:
+    - path: engine/dataloader.py
+      hash: md5
+      md5: f84799204162fc2f9dc86b9d77dd0d8b
+      size: 893
+    - path: engine/dynamics.py
+      hash: md5
+      md5: bf3a571e43643be56403d4cf4cdbbc54
+      size: 820
+    - path: engine/loss.py
+      hash: md5
+      md5: 5326829419a9d553795f2daf29d0e6ad
+      size: 241
+    - path: engine/model.py
+      hash: md5
+      md5: c2d140085920a108a2c2f0da40c3c972
+      size: 672
+    - path: engine/solver.py
+      hash: md5
+      md5: af912d131305ee303d7977e0a0fcfdbe
+      size: 246
+    - path: train.py
+      hash: md5
+      md5: 4a0b97e1df4f8d6d48a6083dda89277b
+      size: 1540
+    outs:
+    - path: model.pt
+      hash: md5
+      md5: 6f003f54673fc068eca6dcf41732ccc2
+      size: 4233
+  evaluate:
+    cmd: python inference.py
+    deps:
+    - path: inference.py
+      hash: md5
+      md5: ad86bd368f5db98cf2144e36ef63d443
+      size: 323
+    - path: model.pt
+      hash: md5
+      md5: 6f003f54673fc068eca6dcf41732ccc2
+      size: 4233
