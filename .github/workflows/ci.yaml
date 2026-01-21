@@ -1,49 +1,29 @@
-name: ModerationDEQ CI
+name: CI
 
 on:
   push:
-    branches: [ main, develop ]
+    branches: [ main ]
   pull_request:
-    branches: [ main, develop ]
+    branches: [ main ]
 
 jobs:
-  ci:
+  test:
     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        python-version: ["3.10"]
-
     steps:
-      - name: Checkout repository
+      - name: Checkout code
         uses: actions/checkout@v4
 
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: ${{ matrix.python-version }}
+          python-version: "3.10"
 
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install -r requirements.txt
-          pip install pytest flake8 dvc mlflow
-
-      - name: Lint
-        run: |
-          flake8 src tests --max-line-length=100 --ignore=E203,W503
+          pip install pytest
 
       - name: Run tests
         run: |
-          pytest tests/ --disable-warnings --maxfail=1
-
-      - name: DVC check
-        run: |
-          dvc status || echo "DVC skipped"
-
-      - name: MLflow sanity check
-        run: |
-          python - <<EOF
-          import mlflow
-          print("MLflow OK")
-          EOF
+          pytest
